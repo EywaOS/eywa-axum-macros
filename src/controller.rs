@@ -1,10 +1,10 @@
 //! Controller macro implementation
 
-use darling::FromMeta;
 use darling::ast::NestedMeta;
+use darling::FromMeta;
 use proc_macro2::TokenStream;
 use quote::{format_ident, quote};
-use syn::{Attribute, ImplItem, ItemImpl, parse2};
+use syn::{parse2, Attribute, ImplItem, ItemImpl};
 
 use crate::parse::{ControllerArgs, RouteInfo};
 
@@ -45,7 +45,7 @@ pub fn controller_impl(args: TokenStream, input: TokenStream) -> TokenStream {
         .unwrap_or_default();
 
     // Combine version and path prefix (e.g., "/v1/projects")
-    let full_prefix = format!("{}{}", version_prefix, path_prefix);
+    let full_prefix = format!("/api{}{}", version_prefix, path_prefix);
 
     let tag = controller_args.tag.clone().unwrap_or_else(|| {
         // Extract name from type
