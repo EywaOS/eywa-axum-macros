@@ -188,10 +188,10 @@ pub fn controller_impl(args: TokenStream, input: TokenStream) -> TokenStream {
         .iter()
         .map(|(fn_name, route_info, _)| {
             let method = format_ident!("{}", route_info.method.to_axum_method());
-            let path = &route_info.path;
+            let full_path = format!("{}{}", full_prefix, route_info.path);
 
             quote! {
-                .route(#path, eywa_axum::axum::routing::#method(Self::#fn_name))
+                .route(#full_path, eywa_axum::axum::routing::#method(Self::#fn_name))
             }
         })
         .collect();
@@ -333,11 +333,11 @@ pub fn controller_impl(args: TokenStream, input: TokenStream) -> TokenStream {
             } else {
                  quote! {}
             };
-            
+
             // Override auto_success if user provided 200 manually... (logic below)
             let user_resp = &route_info.responses;
             let user_token_str = user_resp.as_ref().map(|t| t.to_string()).unwrap_or_default();
-            
+
             let final_success = if !user_token_str.contains("200") && !user_token_str.contains("OK") {
                 auto_success
             } else {
@@ -390,7 +390,7 @@ pub fn controller_impl(args: TokenStream, input: TokenStream) -> TokenStream {
                 ) #stub_output {
                     unreachable!("This is a stub for utoipa - use controller method instead");
                 }
-                
+
                 #extra_structs
             }
         })

@@ -1,0 +1,43 @@
+# Rust
+/target
+Cargo.lock
+**/*.rs.bk
+*.pdb
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Debug
+debug/
+*.log
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# Docker
+docker-compose.override.yml
+
+# Build artifacts
+/dist
+/build
+
+# OS
+Thumbs.db
+.DS_Store
+
+# Testing
+coverage/
+*.profraw
+*.profdata
